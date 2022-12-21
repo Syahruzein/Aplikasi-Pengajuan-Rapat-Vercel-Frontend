@@ -27,7 +27,7 @@
     <div class="carousel-inner">
       <div class="carousel-item active">
         <svg
-          class="bd-placeholder-img"
+          class="bd-placeholder-img one"
           width="100%"
           height="100vh"
           xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@
       </div>
       <div class="carousel-item">
         <svg
-          class="bd-placeholder-img "
+          class="bd-placeholder-img second"
           width="100%"
           height="100vh"
           xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +100,7 @@
       </div>
       <div class="carousel-item">
         <svg
-          class="bd-placeholder-img"
+          class="bd-placeholder-img third"
           width="100%"
           height="100vh"
           xmlns="http://www.w3.org/2000/svg"
