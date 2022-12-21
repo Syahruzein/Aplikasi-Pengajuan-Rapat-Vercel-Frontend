@@ -27,7 +27,7 @@
     <div class="carousel-inner">
       <div class="carousel-item active">
         <svg
-          class="bd-placeholder-img one"
+          class="bd-placeholder-img"
           width="100%"
           height="100vh"
           xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@
       </div>
       <div class="carousel-item">
         <svg
-          class="bd-placeholder-img second"
+          class="bd-placeholder-img "
           width="100%"
           height="100vh"
           xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +100,7 @@
       </div>
       <div class="carousel-item">
         <svg
-          class="bd-placeholder-img third"
+          class="bd-placeholder-img"
           width="100%"
           height="100vh"
           xmlns="http://www.w3.org/2000/svg"
@@ -190,10 +190,19 @@ export default {
   text-shadow: 1px 1px 2px #000000;
 }
 .one{
+    background: url('../../assets/img/curved-images/curved12.png');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .second{
+    background: url('../../assets/img/curved-images/curved11.png');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .third{
+    background: url('../../assets/img/curved-images/curved15.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .rect{
   color: rgba(0,0,0,0.6);
