@@ -25,7 +25,7 @@ export default {
     name: 'home',
     // mixins:[aos],
     components: {
-        NavBar,
+        // NavBar,
         TopView,
         MiddleView,
         FooterView,
