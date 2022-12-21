@@ -123,8 +123,7 @@
     </div>
 </template>
 
-<style scoped>
-
+<style>
     #body {
         /* height: 200vh; */
         background-color: white;
@@ -146,13 +145,8 @@
 </style>
 
 <script>
-    import AOS from 'aos'
 export default {
     name: 'MiddleView',
-    created ( ) {
-        AOS.init()
-        AOS.refresh()
-    },
     
 }
 </script>

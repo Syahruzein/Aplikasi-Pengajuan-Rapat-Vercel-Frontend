@@ -8,7 +8,6 @@
 </template>
 
 <style >
-    @import "https://pro.fontawesome.com/releases/v5.10.0/css/all.css";
     @import '~/assets/css/app.css';
 </style>
 

@@ -6,14 +6,11 @@
       outlined
       tile
       >
-        <v-row dense >
-          <v-col 
-            cols="4" 
-            class="d-flex justify-space-between">
+      <v-container>
+        <v-row>
             <v-col
               v-for="(item, i) in items"
               :key="i"
-              cols="12"
             >
               <v-card
                 :color="item.color"
@@ -89,14 +86,16 @@
                 </div>
               </v-card>
             </v-col>
-          </v-col>
         </v-row>
+      </v-container>
       </v-card>
 
       <v-row
       v-if="showKaprodi"
       >
-        <v-col>
+        <v-col 
+        cols="12"
+        sm="6">
           <h2 class="mt-4">Profile</h2>
 
           <v-card
@@ -154,7 +153,9 @@
             </v-layout>
         </v-card>
         </v-col>
-        <v-col>
+        <v-col 
+        cols="12"
+        sm="6">
           <h2 class="mt-4">Rapat Hari ini:</h2>
 
           <jadwal-hari-ini-vue></jadwal-hari-ini-vue>
