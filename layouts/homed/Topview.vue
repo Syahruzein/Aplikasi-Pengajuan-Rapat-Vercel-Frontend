@@ -24,7 +24,7 @@
                             lg="12"
                             >
 
-                                <!-- <img src="~/assets/img/logo/PENS.png" alt="pens.png"/> -->
+                                <img src="~/assets/img/logo/PENS.png" alt="pens.png"/>
                             </v-col>
                             <v-col
                             cols="12"
@@ -71,7 +71,7 @@
                             align="center"
                             >
 
-                                <!-- <img src="~/assets/img/logo/PENS.png" alt="pens.png"/> -->
+                                <img src="~/assets/img/logo/PENS.png" alt="pens.png"/>
                             </v-col>
                             <v-col
                             cols="12"
@@ -119,7 +119,7 @@
                             align="end"                            
                             >
 
-                                <!-- <img src="~/assets/img/logo/PENS.png" alt="pens.png"/> -->
+                                <img src="~/assets/img/logo/PENS.png" alt="pens.png"/>
                             </v-col>
                             <v-col
                             cols="12"

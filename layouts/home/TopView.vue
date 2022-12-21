@@ -190,19 +190,10 @@ export default {
   text-shadow: 1px 1px 2px #000000;
 }
 .one{
-    background: url('../../assets/img/curved-images/curved12.png');
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 .second{
-    background: url('../../assets/img/curved-images/curved11.png');
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 .third{
-    background: url('../../assets/img/curved-images/curved15.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 .rect{
   color: rgba(0,0,0,0.6);
