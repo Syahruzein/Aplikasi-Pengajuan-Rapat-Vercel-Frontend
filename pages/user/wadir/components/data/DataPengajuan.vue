@@ -77,6 +77,7 @@
                                                 <v-list-item-title>Perihal</v-list-item-title>
                                                     <v-text-field
                                                         :disabled="!isEditing"
+                                                        disabled
                                                         v-model="selectedItemIndex.perihal"
                                                     ></v-text-field>
                                             </v-list-item-content>
@@ -86,6 +87,7 @@
                                                 <v-list-item-title>Tempat</v-list-item-title>
                                                     <v-text-field
                                                         :disabled="!isEditing"
+                                                        disabled
                                                         v-model="selectedItemIndex.tempat"
                                                     ></v-text-field>
                                             </v-list-item-content>
@@ -108,6 +110,7 @@
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-text-field
                                                     :disabled="!isEditing"
+                                                    disabled
                                                     :value="computedDateFormattedMomentjs"
                                                     clearable
                                                     prepend-icon="mdi-calendar"
@@ -158,9 +161,9 @@
                                                 <template v-slot:activator="{ on, attrs }">
                                                 <v-text-field
                                                     :disabled="!isEditing"
+                                                    disabled
                                                     v-model="selectedItemIndex.waktu"
                                                     prepend-icon="mdi-clock-time-four-outline"
-                                                    readonly
                                                     v-bind="attrs"
                                                     v-on="on"
                                                 ></v-text-field>
