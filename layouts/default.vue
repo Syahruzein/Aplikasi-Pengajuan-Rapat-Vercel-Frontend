@@ -163,31 +163,35 @@
       <v-btn
         icon
         @click.stop="miniVariant = !miniVariant"
+        class="medias"
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
       <v-btn
         icon
         @click.stop="clipped = !clipped"
+        class="medias"
       >
         <v-icon>mdi-application</v-icon>
       </v-btn>
       <v-btn
         icon
         @click.stop="fixed = !fixed"
+        class="medias"
       >
         <v-icon>mdi-minus</v-icon>
       </v-btn>
       <img src="~/assets/img/logo/apr.svg" 
                 class="float-left pr-2" alt="..."
                 />
-                <v-btn
+      <v-btn
         icon
         @click.stop="fixed = !fixed"
+        class="medias"
       >
         <v-icon>mdi-minus</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title v-text="title" class="medias"/>
       <v-spacer />
       <v-btn @click="logOut">
         Logout
@@ -207,6 +211,10 @@
     </v-footer>
   </v-app>
 </template>
+
+<style>
+@media only screen and (max-width: 768px) { .medias { display: none !important; } }
+</style>
 
 <script>
 export default {
