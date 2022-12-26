@@ -226,18 +226,18 @@ export default {
     methods: {
       async countPengajuanByReceiver() {
           const receiver = this.$store.state.authentication.user.position;
-          const getCount = await this.$axios(`http://localhost:9200/meet/count-meet-process-receiver/${receiver}`);
+          const getCount = await this.$axios(`/meet/count-meet-process-receiver/${receiver}`);
           this.totalSubmission = getCount.data.total;
           // console.log("data", getData);
       },
       async countMeet() {
-        const getCount = await this.$axios("http://localhost:9200/meet/count-meet-success");
+        const getCount = await this.$axios("/meet/count-meet-success");
         this.totalMeet = getCount.data.total;
         // console.log("data", getData);
       },
       async countMeetByInvite() {
           const username = this.$store.state.authentication.user.username;
-          const getCount = await this.$axios(`http://localhost:9200/meet/count-meet-success-username/${username}`);
+          const getCount = await this.$axios(`/meet/count-meet-success-username/${username}`);
           this.totalInvite = getCount.data.total;
           // console.log("data", getData);
       },

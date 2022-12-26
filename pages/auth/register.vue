@@ -204,7 +204,7 @@ export default {
             this.$refs.form.validate();
             if(this.$refs.form.validate()) {
               this.$axios
-                .post('http://localhost:9200/api/auth/signup',{
+                .post('/api/auth/signup',{
                   username : this.username,
                   email : this.email,
                   password : this.password,

@@ -497,7 +497,7 @@ import moment from 'moment';
                     await this.$axios({
                         // withCredentials:true,
                         method: 'post',
-                        url: 'http://localhost:9200/meet/submission',
+                        url: '/meet/submission',
                         data: {
                             perihal: 'Rapat ' + this.perihal,
                             tempat: this.tempat,
@@ -525,18 +525,18 @@ import moment from 'moment';
             },
             async getMeet() {
                 const getData = await this.$axios(
-                    `http://localhost:9200/meet/process-and-success`
+                    `/meet/process-and-success`
                 );
                 this.dateCheck = getData.data;
             
             },
             async getReceiver () {
-                const getData = await this.$axios(`http://localhost:9200/api/auth/director-wadir`);
+                const getData = await this.$axios(`/api/auth/director-wadir`);
                 this.executive = getData.data;
             }, 
             async getParticipants (){
                 const username  = this.$store.state.authentication.user.username;
-                const getData = await this.$axios(`http://localhost:9200/api/auth/user-invite/${username}`);
+                const getData = await this.$axios(`/api/auth/user-invite/${username}`);
                 this.people = getData.data;
                 this.people2 = getData.data;
             },

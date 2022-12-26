@@ -465,7 +465,7 @@ export default {
         await this.$axios({
           // withCredentials:true,
           method: "post",
-          url: "http://localhost:9200/meet/submission",
+          url: "/meet/submission",
           data: {
             perihal: "Rapat " + this.perihal,
             tempat: this.tempat,
@@ -493,7 +493,7 @@ export default {
     },
     async getMeet() {
       const getData = await this.$axios(
-        `http://localhost:9200/meet/process-and-success`
+        `/meet/process-and-success`
       );
       this.dateCheck = getData.data;
       
@@ -501,14 +501,14 @@ export default {
     async getParticipants() {
       const username = this.$store.state.authentication.user.username;
       const getData = await this.$axios(
-        `http://localhost:9200/api/auth/user-invite/${username}`
+        `/api/auth/user-invite/${username}`
       );
       this.people = getData.data;
       this.people2 = getData.data;
     },
     async getReceiver() {
       const getData = await this.$axios(
-        `http://localhost:9200/api/auth/director`
+        `/api/auth/director`
       );
       this.executive = getData.data;
     },

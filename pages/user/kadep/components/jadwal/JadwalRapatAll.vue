@@ -212,13 +212,13 @@
             },
             async countMeet() {
                 const user_id = this.$store.state.authentication.user.id;
-                const getCount = await this.$axios(`http://localhost:9200/meet/count-meet-success-id/${user_id}`);
+                const getCount = await this.$axios(`/meet/count-meet-success-id/${user_id}`);
                 this.totalMeet = getCount.data.total;
                 // console.log("data", getData);
             },
             async getMeet() {
                 const user_id = this.$store.state.authentication.user.id;
-                const getData = await this.$axios(`http://localhost:9200/meet/success-id/${user_id}`);
+                const getData = await this.$axios(`/meet/success-id/${user_id}`);
                 // if(getData.data.id == userId) {
                     this.meet = getData.data;
                 // }
@@ -226,7 +226,7 @@
             },
             async getAuthNameVerified() {
                 const position = this.selectedItemIndex.receiver;
-                const getData = await this.$axios(`http://localhost:9200/api/auth/user-by-position/${position}`)
+                const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
                 this.nameVerified = getData.data;
             },
             getItemStatus() {

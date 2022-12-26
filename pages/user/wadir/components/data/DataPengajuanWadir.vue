@@ -622,31 +622,31 @@
             },
             async getMeet() {
                 const getData = await this.$axios(
-                    `http://localhost:9200/meet/process-and-success`
+                    `/meet/process-and-success`
                 );
                 this.dateCheck = getData.data;
             },
             async countPengajuan() {
                 const user_id = this.$store.state.authentication.user.id;
-                const getCount = await this.$axios(`http://localhost:9200/meet/count-meet-process/${user_id}`);
+                const getCount = await this.$axios(`/meet/count-meet-process/${user_id}`);
                 this.totalMeet = getCount.data.total;
                 // console.log("data", getData);
             },
             async getPengajuan() {
                 const user_id = this.$store.state.authentication.user.id;
-                const getData = await this.$axios(`http://localhost:9200/meet/process/${user_id}`);
+                const getData = await this.$axios(`/meet/process/${user_id}`);
                 // if(getData.data.id == userId) {
                     this.meet = getData.data;
                 // }
                 // console.log("data", getData)
             },
             async getReceiver() {
-                const getData = await this.$axios(`http://localhost:9200/api/auth/director`);
+                const getData = await this.$axios(`/api/auth/director`);
                 this.executive = getData.data;
             },
             async getParticipants(){
                 const username = this.$store.state.authentication.user.username;
-                const getData = await this.$axios(`http://localhost:9200/api/auth/user-invite/${username}`);
+                const getData = await this.$axios(`/api/auth/user-invite/${username}`);
                 this.people = getData.data;
                 this.people2 = getData.data;
             },
@@ -738,7 +738,7 @@
             async deleteItemConfirm() {
                 const id = this.selectedItemIndex.id;
                 this.$axios
-                    .delete(`http://localhost:9200/meet/${id}`)
+                    .delete(`/meet/${id}`)
                     .then(response => {
                     this.meet.splice(this.selectedItemIndex, 1);
                     this.closeDelete();
@@ -754,7 +754,7 @@
                 if (this.editedIndex > -1) {
                         this.$axios({
                         method: 'put',
-                        url: 'http://localhost:9200/meet/update-process' ,
+                        url: '/meet/update-process' ,
                         data: Object.assign(this.meet[this.editedIndex], this.selectedItemIndex, this.selectedItemIndex.participants = finalParticipants), 
                         })
                         .then(response => {

@@ -184,7 +184,7 @@ export default {
             const dia = today.getDate();
             const tanggal =year+"-"+mes+"-"+dia;
             const user_id = this.$store.state.authentication.user.id;
-            const getData = await this.$axios(`http://localhost:9200/meet/success-date-id/${tanggal}/${user_id}`);
+            const getData = await this.$axios(`/meet/success-date-id/${tanggal}/${user_id}`);
             // // if(getData.data.id == userId) {
                 this.meet = getData.data;
             // }
@@ -192,7 +192,7 @@ export default {
         },
         async getAuthNameVerified() {
             const position = this.selectedItemIndex.receiver;
-            const getData = await this.$axios(`http://localhost:9200/api/auth/user-by-position/${position}`)
+            const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
             this.nameVerified = getData.data;
         },
         getItemTanggal() {

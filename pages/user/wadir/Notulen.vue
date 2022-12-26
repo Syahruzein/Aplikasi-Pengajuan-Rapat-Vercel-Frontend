@@ -272,7 +272,7 @@ export default {
             const user_id = this.$store.state.authentication.user.id;
             const receiver = this.$store.state.authentication.user.position;
             const participants = this.$store.state.authentication.user.username;
-            const getCount = await this.$axios(`http://localhost:9200/meet/count-meet-finish-id-receiver/${user_id}/${receiver}/${participants}`);
+            const getCount = await this.$axios(`/meet/count-meet-finish-id-receiver/${user_id}/${receiver}/${participants}`);
             this.totalMeet = getCount.data.total;
             // console.log("data", getData);
         },
@@ -280,7 +280,7 @@ export default {
             const user_id = this.$store.state.authentication.user.id;
             const receiver = this.$store.state.authentication.user.position;
             const participants = this.$store.state.authentication.user.username;
-            const getData = await this.$axios(`http://localhost:9200/meet/finish-id-receiver-invite/${user_id}/${receiver}/${participants}`);
+            const getData = await this.$axios(`/meet/finish-id-receiver-invite/${user_id}/${receiver}/${participants}`);
             // // if(getData.data.id == userId) {
                 this.meet = getData.data;
             // }
@@ -288,7 +288,7 @@ export default {
         },
         async getNotulen() {
             const meet_id = this.selectedItemIndex.id;
-            const getDataNotulen = await this.$axios(`http://localhost:9200/notulen/${meet_id}`)
+            const getDataNotulen = await this.$axios(`/notulen/${meet_id}`)
             // method: 'put',
             this.catatans = getDataNotulen.data;
             // console.log("data", getData)
@@ -296,7 +296,7 @@ export default {
         },
         async getAuthNameVerified() {
             const position = this.selectedItemIndex.receiver;
-            const getData = await this.$axios(`http://localhost:9200/api/auth/user-by-position/${position}`)
+            const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
             this.nameVerified = getData.data;
         },
         getItemTanggal() {

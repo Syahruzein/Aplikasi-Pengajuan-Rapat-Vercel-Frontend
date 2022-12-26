@@ -393,12 +393,12 @@ export default {
     },
     methods: {
         async countMeet() {
-                const getCount = await this.$axios("http://localhost:9200/meet/count-meet-finish");
+                const getCount = await this.$axios("/meet/count-meet-finish");
                 this.totalMeet = getCount.data.total;
                 // console.log("data", getData);
             },
         async getMeet() {
-            const getData = await this.$axios(`http://localhost:9200/meet/finish`);
+            const getData = await this.$axios(`/meet/finish`);
             // // if(getData.data.id == userId) {
                 this.meet = getData.data;
             // }
@@ -406,7 +406,7 @@ export default {
         },
         async getNotulen() {
             const meet_id = this.selectedItemIndex.id;
-            const getDataNotulen = await this.$axios(`http://localhost:9200/notulen/${meet_id}`)
+            const getDataNotulen = await this.$axios(`/notulen/${meet_id}`)
             // method: 'put',
             this.catatans = getDataNotulen.data;
             // console.log("data", getData)
@@ -414,7 +414,7 @@ export default {
         },
         async getAuthNameVerified() {
                 const position = this.selectedItemIndex.receiver;
-                const getData = await this.$axios(`http://localhost:9200/api/auth/user-by-position/${position}`)
+                const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
                 this.nameVerified = getData.data;
             },
         async validate(){
@@ -426,7 +426,7 @@ export default {
 
                 await this.$axios({
                     method: 'put',
-                    url: `http://localhost:9200/notulen/update`,
+                    url: `/notulen/update`,
                     data : {
                         notulen: this.notulen,
                         meet_id

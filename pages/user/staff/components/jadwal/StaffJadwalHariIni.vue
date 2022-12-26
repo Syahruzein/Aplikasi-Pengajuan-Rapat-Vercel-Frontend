@@ -183,7 +183,7 @@ export default {
             const mes = today.getMonth()+1;
             const dia = today.getDate();
             const tanggal =year+"-"+mes+"-"+dia;
-            const getData = await this.$axios(`http://localhost:9200/meet/success-date/${tanggal}`);
+            const getData = await this.$axios(`/meet/success-date/${tanggal}`);
             // // if(getData.data.id == userId) {
                 this.meet = getData.data;
             // }
@@ -191,7 +191,7 @@ export default {
         },
         async getAuthNameVerified() {
             const position = this.selectedItemIndex.receiver;
-            const getData = await this.$axios(`http://localhost:9200/api/auth/user-by-position/${position}`)
+            const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
             this.nameVerified = getData.data;
         },
         getItemTanggal() {

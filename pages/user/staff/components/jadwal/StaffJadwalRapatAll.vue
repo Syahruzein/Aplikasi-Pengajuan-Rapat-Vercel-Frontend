@@ -269,13 +269,13 @@
             else return 'blue-grey lighten-2'
             },
             async countPengajuan() {
-                const getCount = await this.$axios("http://localhost:9200/meet/count-meet-success");
+                const getCount = await this.$axios("/meet/count-meet-success");
                 this.totalMeet = getCount.data.total;
                 // console.log("data", getData);
             },
             async getPengajuan() {
                 // const userId = this.$store.state.authentication.user.id;
-                const getData = await this.$axios(`http://localhost:9200/meet/success`);
+                const getData = await this.$axios(`/meet/success`);
                 // if(getData.data.id == userId) {
                     this.meet = getData.data;
                 // }
@@ -283,7 +283,7 @@
             },
             async getAuthNameVerified() {
                 const position = this.selectedItemIndex.receiver;
-                const getData = await this.$axios(`http://localhost:9200/api/auth/user-by-position/${position}`)
+                const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
                 this.nameVerified = getData.data;
             },
             getItemStatus() {
@@ -321,7 +321,7 @@
                         // console.log(data)
                         this.$axios({
                         method: 'put',
-                        url: 'http://localhost:9200/meet/update-finished' ,
+                        url: '/meet/update-finished' ,
                         data: Object.assign(this.meet[this.editedIndex], this.selectedItemIndex, this.selectedItemIndex.status = '3', {meet_id})
                         })
                         .then(response => {

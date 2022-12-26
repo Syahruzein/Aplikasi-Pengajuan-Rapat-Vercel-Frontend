@@ -261,13 +261,13 @@
             },
             async countMeet() {
                 const participants = this.$store.state.authentication.user.username;
-                const getCount = await this.$axios(`http://localhost:9200/meet/count-meet-success-username/${participants}`);
+                const getCount = await this.$axios(`/meet/count-meet-success-username/${participants}`);
                 this.totalMeet = getCount.data.total;
                 // console.log("data", getData);
             },
             async getMeet() {
                 const participants = this.$store.state.authentication.user.username;
-                const getData = await this.$axios(`http://localhost:9200/meet/success-users/${participants}`);
+                const getData = await this.$axios(`/meet/success-users/${participants}`);
                 // if(getData.data.id == userId) {
                     this.meet = getData.data;
                 // }
@@ -275,7 +275,7 @@
             },
             async getAuthNameVerified() {
                 const position = this.selectedItemIndex.receiver;
-                const getData = await this.$axios(`http://localhost:9200/api/auth/user-by-position/${position}`)
+                const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
                 this.nameVerified = getData.data;
             },
             getItemStatus() {
@@ -307,7 +307,7 @@
                 if (this.editedIndex > -1) {
                         this.$axios({
                         method: 'put',
-                        url: 'http://localhost:9200/meet/update-success' ,
+                        url: '/meet/update-success' ,
                         data: Object.assign(this.meet[this.editedIndex], this.selectedItemIndex, this.selectedItemIndex.status = '3')
                         })
                         .then(response => {

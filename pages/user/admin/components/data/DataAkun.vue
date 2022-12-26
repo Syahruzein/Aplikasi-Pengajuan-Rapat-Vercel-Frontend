@@ -63,7 +63,7 @@ export default {
     },
     methods: {
         async getAuthAll() {
-            const getData = await this.$axios(`http://localhost:9200/api/auth/user`);
+            const getData = await this.$axios(`/api/auth/user`);
             this.akun = getData.data;
         },
     },

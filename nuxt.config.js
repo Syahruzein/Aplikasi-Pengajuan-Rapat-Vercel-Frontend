@@ -16,6 +16,8 @@ export default {
     ]
   },
 
+  // target: 'static', // default is 'server'
+
   ssr: false, // Disable Server Side rendering
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -58,30 +60,8 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    // baseURL: 'http://localhost:3000',
+    baseURL: 'http://43.218.1.199:9200',
   },
-  // auth: {
-  //   strategies: {
-  //     local: {
-
-  //     },
-  //   },
-  // },
-
-  // auth: {
-  //   strategies: {
-  //     local: {
-  //       endpoints: {
-  //         login: { url: 'http://localhost:8080/api/auth/signin', method: 'post', propertyName: 'data.token' },
-  //         user: { url: 'http://localhost:8080/api/test/user', method: 'get', propertyName: 'data' },
-  //         dir: { url: 'http://localhost:8080/api/test/dir', method: 'get', propertyName: 'data' },
-  //         admin: { url: 'http://localhost:8080/api/test/admin', method: 'get', propertyName: 'data' },
-  //         logout: false
-  //       },
-  //       tokenType: ''
-  //     }
-  //   }
-  // },
 
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

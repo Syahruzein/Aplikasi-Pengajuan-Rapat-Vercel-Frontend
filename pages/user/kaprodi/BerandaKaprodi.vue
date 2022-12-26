@@ -228,26 +228,26 @@ export default {
     methods: {
       async countPengajuan() {
         const user_id = this.$store.state.authentication.user.id;
-        const getCount = await this.$axios(`http://localhost:9200/meet/count-meet-process/${user_id}`);
+        const getCount = await this.$axios(`/meet/count-meet-process/${user_id}`);
         this.totalSubmission = getCount.data.total;
         // console.log("data", getData);
       },
       async countMeet() {
         const user_id = this.$store.state.authentication.user.id;
-        const getCount = await this.$axios(`http://localhost:9200/meet/count-meet-success-id/${user_id}`);
+        const getCount = await this.$axios(`/meet/count-meet-success-id/${user_id}`);
         this.totalMeet = getCount.data.total;
         // console.log("data", getData);
       },
       async countMeetByInvite() {
         const username = this.$store.state.authentication.user.username;
-        const getCount = await this.$axios(`http://localhost:9200/meet/count-meet-success-username/${username}`);
+        const getCount = await this.$axios(`/meet/count-meet-success-username/${username}`);
         this.totalInvite = getCount.data.total;
         // console.log("data", getData);
       },
       async countMeetFinish() {
         const user_id = this.$store.state.authentication.user.id;
         const participants = this.$store.state.authentication.user.username;
-        const getCount = await this.$axios(`http://localhost:9200/meet/count-meet-finish-uid/${user_id}/${participants}`);
+        const getCount = await this.$axios(`/meet/count-meet-finish-uid/${user_id}/${participants}`);
         this.totalNotulen = getCount.data.total;
       }
     },
