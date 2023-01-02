@@ -234,8 +234,8 @@ export default {
           // console.log("data", getData);
       },
       async countMeet() {
-        const receiver = this.$store.state.authentication.user.position;
-        const getCount = await this.$axios(`/meet/count-meet-success-receiver/${receiver}`);
+        const user_id = this.$store.state.authentication.user.id;
+        const getCount = await this.$axios(`/meet/count-meet-success-id/${user_id}`);
         this.totalMeet = getCount.data.total;
         // console.log("data", getData);
       },

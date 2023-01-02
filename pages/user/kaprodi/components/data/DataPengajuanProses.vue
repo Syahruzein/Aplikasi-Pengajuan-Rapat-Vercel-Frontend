@@ -64,7 +64,7 @@
                                         >
                                             <v-subheader class="pt-4 mb-2">
                                                 <p>
-                                                    Dari : <b class="subheader">{{ selectedItemIndex.maker }} </b> 
+                                                    Dari : <b class="subheader">{{ maker }} </b> 
                                                     <br> 
                                                     Kepada : {{ selectedItemIndex.receiver }}
                                                 </p>
@@ -216,7 +216,7 @@
                                                     </v-data-table>
                                                     <p class="red--text pt-6">
                                                     <i>
-                                                        Catatans : Rapat maksimal dalam 1 hari adalah 3 kali dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Terima kasih.
+                                                        Catatans : Rapat maksimal dalam 1 hari adalah 5 kali sesuai dengan direksi yang ditujuh (ada pada kolom Kepada) dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Anda bisa mengajukan rapat dengan jam yang sama dengan catatan direksi (kolom Kepada) yang berbeda. Terima kasih.
                                                     </i>
                                                     </p>
                                                 </v-col>
@@ -241,7 +241,7 @@
                                                     </v-data-table>
                                                     <p class="red--text pt-6">
                                                     <i>
-                                                        Catatans : Rapat maksimal dalam 1 hari adalah 3 kali dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Terima kasih.
+                                                        Catatans : Rapat maksimal dalam 1 hari adalah 5 kali sesuai dengan direksi yang ditujuh (ada pada kolom Kepada) dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Anda bisa mengajukan rapat dengan jam yang sama dengan catatan direksi (kolom Kepada) yang berbeda. Terima kasih.
                                                     </i>
                                                     </p>
                                                 </v-col>
@@ -267,7 +267,7 @@
                                                     
                                                     <p class="red--text pt-6">
                                                     <i>
-                                                        Catatans : Rapat maksimal dalam 1 hari adalah 3 kali dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Terima kasih.
+                                                        Catatans : Rapat maksimal dalam 1 hari adalah 5 kali sesuai dengan direksi yang ditujuh (ada pada kolom Kepada) dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Anda bisa mengajukan rapat dengan jam yang sama dengan catatan direksi (kolom Kepada) yang berbeda. Terima kasih.
                                                     </i>
                                                     </p>
                                                 </v-col>
@@ -294,8 +294,8 @@
                                                         required
                                                         item-text="position"
                                                         item-value="position"
-                                                        @change="except"
-                                                    ></v-select>
+                                                        ></v-select>
+                                                        <!-- @change="except" -->
                                             </v-list-item-content>
                                             </v-list-item>
 
@@ -552,7 +552,7 @@ export default {
                 }
             ],
             headers: [
-                // { text: "ID", value: "id" },
+                { text: "Kepeda", value: "receiver" },
                 { text: "Perihal", value: "perihal" },
                 { text: "Tempat", value: "tempat" },
                 { text: "Tanggal", value: "tanggal" },
@@ -576,6 +576,8 @@ export default {
             fixDateCheck: [{}],
 
             fixTimeCheck: [{}],
+
+            maker: [{}],
 
             valid: false,
 
@@ -650,24 +652,71 @@ export default {
             this.people2 = getData.data;
         },
         except() {
-            const exception = this.people2.map((item) => {
-                if (item.position != this.selectedItemIndex.receiver) {
-                    return item;
-                }
-            });
-            this.people = exception;
+            // const exception = this.people2.map((item) => {
+            //     if (item.position != this.selectedItemIndex.receiver) {
+            //         return item;
+            //     }
+            // });
+            // this.people = exception;
+
+            const so = []
+                const rrr = this.people2.find(item => {
+                    item.position == this.selectedItemIndex.receiver
+                    return item.username
+                })
+                this.receiver2 = rrr.username
+                console.log(rrr.username)
+                console.log(this.receiver2);
+                Array.prototype.unique = function() {
+                    var a = this.concat();
+                    for(var i=0; i<a.length; ++i) {
+                        for(var j=i+1; j<a.length; ++j) {
+                            if(a[i] === a[j])
+                                a.splice(j--, 1);
+                        }
+                    }
+
+                    return a;
+                };
+                let sos = [this.receiver2]
+                sos = so.concat(this.fixUnvalaibleParticipantsCheck).unique()
+                console.log(sos)
+                const res = this.people2.filter(item => !sos.includes(item.username))
+                this.people = res
+                console.log(this.selectedItemIndex.receiver)
+
         },
         triple() {
             const triplying = this.dateCheck.filter((item) => {
                 return moment(item.tanggal).isSame(new Date(this.selectedItemIndex.tanggal), "day")
             })
-            if(triplying.length >= 3) {
+            if(triplying.length >= 5) {
                 console.log("error")
             } else {
                 console.log('betul')
             }
             this.fixDateCheck = triplying;
-            console.log(this.fixDateCheck);
+                console.log(this.fixDateCheck);
+                let os = []
+                this.fixUnvalaibleParticipantsCheck = [this.receiver2]
+                Array.prototype.unique = function() {
+                    var a = this.concat();
+                    for(var i=0; i<a.length; ++i) {
+                        for(var j=i+1; j<a.length; ++j) {
+                            if(a[i] === a[j])
+                                a.splice(j--, 1);
+                        }
+                    }
+
+                    return a;
+                };
+                this.fixUnvalaibleParticipantsCheck = this.fixDateCheck.map(item => item.participants).flat(1)
+
+                console.log(this.fixUnvalaibleParticipantsCheck)
+                const res = this.people2.filter(item => !this.fixUnvalaibleParticipantsCheck.includes(item.username))
+                this.people = res
+                console.log("res", res)
+                console.log("people", this.people)
         },
         timedi() {
             const timede = this.dateCheck.filter((item) => {
@@ -690,6 +739,10 @@ export default {
                 this.isSelectAll = true;
             });
         },
+        makerMeet() {
+            const arr = this.selectedItemIndex.maker[0];
+            this.maker = arr
+        },
         getItemStatus() {
             return "item.status";
         },
@@ -706,6 +759,8 @@ export default {
             this.editedIndex = this.meet.indexOf(item);
             this.selectedItemIndex = Object.assign({}, item);
             this.except(this.editedIndex);
+            this.triple(this.editedIndex);
+            this.makerMeet(this.editedIndex);
             this.dialog = true;
         },
         deleteItem() {

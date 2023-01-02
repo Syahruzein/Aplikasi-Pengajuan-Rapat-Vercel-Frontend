@@ -156,7 +156,7 @@
                             </v-data-table>
                             <p class="red--text pt-6">
                             <i>
-                                Catatans : Rapat maksimal dalam 1 hari adalah 3 kali dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Terima kasih.
+                                Catatans : Rapat maksimal dalam 1 hari adalah 5 kali sesuai dengan direksi yang ditujuh (ada pada kolom Kepada) dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Anda bisa mengajukan rapat dengan jam yang sama dengan catatan direksi (kolom Kepada) yang berbeda. Terima kasih.
                             </i>
                             </p>
                         </v-col>
@@ -181,7 +181,7 @@
                             </v-data-table>
                             <p class="red--text pt-6">
                             <i>
-                                Catatans : Rapat maksimal dalam 1 hari adalah 3 kali dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Terima kasih.
+                                Catatans : Rapat maksimal dalam 1 hari adalah 5 kali sesuai dengan direksi yang ditujuh (ada pada kolom Kepada) dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Anda bisa mengajukan rapat dengan jam yang sama dengan catatan direksi (kolom Kepada) yang berbeda. Terima kasih.
                             </i>
                             </p>
                         </v-col>
@@ -207,7 +207,7 @@
                             
                             <p class="red--text pt-6">
                             <i>
-                                Catatans : Rapat maksimal dalam 1 hari adalah 3 kali dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Terima kasih.
+                                Catatans : Rapat maksimal dalam 1 hari adalah 5 kali sesuai dengan direksi yang ditujuh (ada pada kolom Kepada) dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Anda bisa mengajukan rapat dengan jam yang sama dengan catatan direksi (kolom Kepada) yang berbeda. Terima kasih.
                             </i>
                             </p>
                         </v-col>
@@ -384,7 +384,7 @@
                 participants: [],
                 deskripsi: '',
                 headers: [
-                    // { text: "ID", value: "id" },
+                    { text: "Kepeda", value: "receiver" },
                     { text: "Perihal", value: "perihal" },
                     { text: "Tempat", value: "tempat" },
                     { text: "Tanggal", value: "tanggal" },
@@ -472,7 +472,7 @@
                 if(this.$refs.form.validate()){
                     // const data = this.editItem;
                     // console.log(data);
-                    const nameUser = this.$store.state.authentication.user.username;
+                    const nameUser =[this.$store.state.authentication.user.username, this.$store.state.authentication.user.position];
                     const position = this.$store.state.authentication.user.position;
                     let finalParticipants = this.participants;
                     if(this.isSelectAll){
@@ -541,6 +541,10 @@
                     console.log('betul')
                 }
                 this.fixDateCheck = triplying;
+                this.fixUnvalaibleParticipantsCheck = []
+                this.fixUnvalaibleParticipantsCheck = this.fixDateCheck.map(item => item.participants).flat(1)
+                const res = this.people2.filter(item => !this.fixUnvalaibleParticipantsCheck.includes(item.username))
+                this.people = res
             },
             timedi() {
                 const timede = this.dateCheck.filter((item) => {

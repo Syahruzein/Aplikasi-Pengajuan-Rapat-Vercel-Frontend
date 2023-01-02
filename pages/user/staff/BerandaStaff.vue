@@ -135,6 +135,7 @@
                             <v-list-item-title>Position</v-list-item-title>
                                 <v-text-field
                                     disabled
+                                    prefix="Staff -"
                                     v-model="currentUser.position"
                                 ></v-text-field>
                         </v-list-item-content>
@@ -225,13 +226,16 @@ export default {
     },
     methods: {
       async countPengajuanByReceiver() {
-          const receiver = this.$store.state.authentication.user.position;
-          const getCount = await this.$axios(`/meet/count-meet-process-receiver/${receiver}`);
-          this.totalSubmission = getCount.data.total;
-          // console.log("data", getData);
+        const receiver = this.$store.state.authentication.user.position;
+        const maker = this.$store.state.authentication.user.position;
+        const getCount = await this.$axios(`/meet/count-meet-process-by-receiver-by-maker/${receiver}/${maker}`);
+        this.totalSubmission = getCount.data.total;
+        // console.log("data", getData);
       },
       async countMeet() {
-        const getCount = await this.$axios("/meet/count-meet-success");
+        const receiver = this.$store.state.authentication.user.position;
+        const maker = this.$store.state.authentication.user.position;
+        const getCount = await this.$axios(`/meet/count-meet-success-by-receiver-by-maker/${receiver}/${maker}`);
         this.totalMeet = getCount.data.total;
         // console.log("data", getData);
       },

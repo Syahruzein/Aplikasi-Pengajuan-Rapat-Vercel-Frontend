@@ -56,7 +56,7 @@
                                         >
                                             <v-subheader class="pt-4 mb-2">
                                                 <p>
-                                                    Dari : <b class="subheader">{{ selectedItemIndex.maker }} </b> 
+                                                    Dari : <b class="subheader">{{ maker }} </b> 
                                                     <br> 
                                                     Kepada : Saya
                                                 </p>
@@ -90,9 +90,8 @@
                                             </v-list-item>       
                                             <v-list-item>
                                             <v-list-item-content>
-                                                <v-list-item-title class="mt-4">{{ selectedItemIndex.receiver }}</v-list-item-title>
                                                 <v-list-item-title class="mt-4"><b><i class="green--text">Terverifikasi</i></b></v-list-item-title>
-                                                <v-list-item-title class="mt-4">{{ nameVerified[0].username }}</v-list-item-title>
+                                                <v-list-item-title class="mt-4 red--text" ><i>* oleh {{ selectedItemIndex.verified }} </i></v-list-item-title>
                                             </v-list-item-content>
                                             </v-list-item>
                                         </v-list>
@@ -244,6 +243,7 @@
                     }
                 ],
                 nameVerified : [{"username": ""}],
+                maker: [{}],
                 defaultItem : {
                     perihal: '',
                     tempat: '',
@@ -260,13 +260,14 @@
             else return 'blue-grey lighten-2'
             },
             async countMeet() {
-                const getCount = await this.$axios("/meet/count-meet-success");
+                const user_id = this.$store.state.authentication.user.id;
+                const getCount = await this.$axios(`/meet/count-meet-success-id/${user_id}`);
                 this.totalMeet = getCount.data.total;
                 // console.log("data", getData);
             },
             async getMeet() {
-                const receiver = this.$store.state.authentication.user.position;
-                const getData = await this.$axios(`/meet/success-position/${receiver}`);
+                const user_id = this.$store.state.authentication.user.id;
+                const getData = await this.$axios(`/meet/success-id/${user_id}`);
                 // if(getData.data.id == userId) {
                     this.meet = getData.data;
                 // }
@@ -276,6 +277,10 @@
                 const position = this.selectedItemIndex.receiver;
                 const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
                 this.nameVerified = getData.data;
+            },
+            makerMeet() {
+                const arr = this.selectedItemIndex.maker[0];
+                this.maker = arr
             },
             getItemStatus() {
                 return "item.status";
@@ -293,6 +298,7 @@
                 this.editedIndex = this.meet.indexOf(item);
                 this.selectedItemIndex = Object.assign({}, item);
                 this.getAuthNameVerified(this.editedIndex);
+                this.makerMeet(this.editedIndex);
                 this.dialog = true;
             },
             close () {

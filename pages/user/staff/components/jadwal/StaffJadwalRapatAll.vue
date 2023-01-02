@@ -56,7 +56,7 @@
                                         >
                                             <v-subheader class="pt-4 mb-2">
                                                 <p>
-                                                    Dari : <b class="subheader">{{ selectedItemIndex.maker }} </b> 
+                                                    Dari : <b class="subheader">{{ maker }} </b> 
                                                     <br> 
                                                     Kepada : {{ selectedItemIndex.receiver }}
                                                 </p>
@@ -90,9 +90,8 @@
                                             </v-list-item>       
                                             <v-list-item>
                                             <v-list-item-content>
-                                                <v-list-item-title class="mt-4">{{ selectedItemIndex.receiver }}</v-list-item-title>
                                                 <v-list-item-title class="mt-4"><b><i class="green--text">Terverifikasi</i></b></v-list-item-title>
-                                                <v-list-item-title class="mt-4">{{ nameVerified[0].username }}</v-list-item-title>
+                                                <v-list-item-title class="mt-4 red--text" ><i>* oleh {{ selectedItemIndex.verified }} </i></v-list-item-title>
                                             </v-list-item-content>
                                             </v-list-item>
                                         </v-list>
@@ -202,7 +201,8 @@
     </div>
     </template>
     <script>
-    import moment from 'moment'
+    import axios from 'axios';
+import moment from 'moment'
     import 'moment/locale/id'
 
     export default {
@@ -252,6 +252,7 @@
                     }
                 ],
                 nameVerified : [{"username": ""}],
+                maker: [{}],
                 // notulen: "",
                 defaultItem : {
                     perihal: '',
@@ -260,6 +261,7 @@
                     waktu: '',
                     status: '',
                     deskripsi: '',
+                    participants: []
                 },
             };
         },
@@ -269,13 +271,16 @@
             else return 'blue-grey lighten-2'
             },
             async countPengajuan() {
-                const getCount = await this.$axios("/meet/count-meet-success");
+                const receiver = this.$store.state.authentication.user.position;
+                const maker = this.$store.state.authentication.user.position;
+                const getCount = await this.$axios(`/meet/count-meet-success-by-receiver-by-maker/${receiver}/${maker}`);
                 this.totalMeet = getCount.data.total;
                 // console.log("data", getData);
             },
             async getPengajuan() {
-                // const userId = this.$store.state.authentication.user.id;
-                const getData = await this.$axios(`/meet/success`);
+                const receiver = this.$store.state.authentication.user.position;
+                const maker = this.$store.state.authentication.user.position;
+                const getData = await this.$axios(`/meet/success-by-receiver-by-maker/${receiver}/${maker}`);
                 // if(getData.data.id == userId) {
                     this.meet = getData.data;
                 // }
@@ -285,6 +290,10 @@
                 const position = this.selectedItemIndex.receiver;
                 const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
                 this.nameVerified = getData.data;
+            },
+            makerMeet() {
+                const arr = this.selectedItemIndex.maker[0];
+                this.maker = arr
             },
             getItemStatus() {
                 return "item.status";
@@ -302,6 +311,7 @@
                 this.editedIndex = this.meet.indexOf(item);
                 this.selectedItemIndex = Object.assign({}, item);
                 this.getAuthNameVerified(this.editedIndex);
+                this.makerMeet(this.editedIndex);
                 this.dialog = true;
             },
             close () {
@@ -316,13 +326,18 @@
             },
             save () {
                 const meet_id = this.selectedItemIndex.id;
+                const maker =  this.$store.state.authentication.user.username + ' ' + 'Selaku' + ' ' + 'Staff' + ' ' + this.$store.state.authentication.user.position; 
+                let finalParticipants = this.selectedItemIndex.participants;
+                if(this.isSelectAll){
+                    finalParticipants = finalParticipants.filter(item=> item != undefined).map((item) => item.username)
+                }
                 if (this.editedIndex > -1) {
                         // const data = Object.assign(this.meet[this.editedIndex], this.selectedItemIndex, this.selectedItemIndex.status = '3', {meet_id})
                         // console.log(data)
                         this.$axios({
                         method: 'put',
                         url: '/meet/update-finished' ,
-                        data: Object.assign(this.meet[this.editedIndex], this.selectedItemIndex, this.selectedItemIndex.status = '3', {meet_id})
+                        data: Object.assign(this.meet[this.editedIndex], this.selectedItemIndex, this.selectedItemIndex.status = '3', this.selectedItemIndex.participants = finalParticipants, {meet_id, maker})
                         })
                         .then(response => {
                             this.isOperationsSuccess = true

@@ -64,7 +64,7 @@
                                             >
                                                 <v-subheader class="pt-4 mb-2">
                                                     <p>
-                                                        Dari : <b class="subheader">{{ selectedItemIndex.maker }} </b> 
+                                                        Dari : <b class="subheader">{{ maker }} </b> 
                                                         <br> 
                                                         Kepada : {{ selectedItemIndex.receiver }}
                                                     </p>
@@ -294,8 +294,8 @@
                                                             required
                                                             item-text="position"
                                                             item-value="position"
-                                                            @change="except"
-                                                        >
+                                                            >
+                                                            <!-- @change="except" -->
                                                         </v-select>
                                                 </v-list-item-content>
                                                 </v-list-item>
@@ -552,7 +552,7 @@
                     }
                 ],
                 headers: [
-                    // { text: "ID", value: "id" },
+                    { text: "Kepeda", value: "receiver" },
                     { text: "Perihal", value: "perihal" },
                     { text: "Tempat", value: "tempat" },
                     { text: "Tanggal", value: "tanggal" },
@@ -576,6 +576,8 @@
                 fixDateCheck: [{}],
 
                 fixTimeCheck: [{}],
+
+                maker: [{}],
 
                 valid: false,
 
@@ -668,7 +670,11 @@
                     console.log('betul')
                 }
                 this.fixDateCheck = triplying;
-                console.log(this.fixDateCheck);
+                // console.log(this.fixDateCheck);
+                this.fixUnvalaibleParticipantsCheck = []
+                this.fixUnvalaibleParticipantsCheck = this.fixDateCheck.map(item => item.participants).flat(1)
+                const res = this.people2.filter(item => !this.fixUnvalaibleParticipantsCheck.includes(item.username))
+                this.people = res
             },
             timedi() {
                 const timede = this.dateCheck.filter((item) => {
@@ -691,6 +697,10 @@
                     this.isSelectAll = true;
                 });
             },
+            makerMeet() {
+                const arr = this.selectedItemIndex.maker[0];
+                this.maker = arr
+            },
             getItemStatus() {
                 return "item.status";
             },
@@ -707,6 +717,8 @@
                 this.editedIndex = this.meet.indexOf(item);
                 this.selectedItemIndex = Object.assign({}, item);
                 this.except(this.editedIndex); 
+                this.triple(this.editedIndex);
+                this.makerMeet(this.editedIndex);
                 this.dialog = true;
             },
             deleteItem() {

@@ -239,8 +239,8 @@ export default {
         // console.log("data", getData);
       },
       async countMeetByInvite() {
-        const username = this.$store.state.authentication.user.username;
-        const getCount = await this.$axios(`/meet/count-meet-success-username/${username}`);
+        const participants = this.$store.state.authentication.user.username;
+        const getCount = await this.$axios(`/meet/count-meet-success-username/${participants}`);
         this.totalInvite = getCount.data.total;
         // console.log("data", getData);
       },

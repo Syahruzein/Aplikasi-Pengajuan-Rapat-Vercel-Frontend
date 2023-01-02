@@ -61,7 +61,8 @@
                                         <p class="text-h4 text--primary">
                                             Ringkasan
                                         </p>
-                                        <p>dari Sekretaris</p>
+                                        <p v-if="catatans[0].notulen === null">dari staff</p>
+                                        <p v-else>dari {{ catatans[0].maker }}</p>
                                         <div v-if="catatans[0].notulen === null" class="text--primary" >
                                             <i class="red--text">Mohon ma'af notulen belum dibuat</i>
                                         </div>
@@ -85,7 +86,7 @@
                                                     >
                                                         <v-subheader class="pt-4 mb-2">
                                                             <p>
-                                                                <b class="subheader">{{ selectedItemIndex.maker }} </b> 
+                                                                <b class="subheader">{{ maker }} </b> 
                                                                 <br> 
                                                                 kepada {{ selectedItemIndex.receiver }}
                                                             </p>
@@ -119,9 +120,8 @@
                                                         </v-list-item>       
                                                         <v-list-item>
                                                         <v-list-item-content>
-                                                            <v-list-item-title class="mt-4">{{ selectedItemIndex.receiver }}</v-list-item-title>
                                                             <v-list-item-title class="mt-4"><b><i class="green--text">Terverifikasi</i></b></v-list-item-title>
-                                                            <v-list-item-title class="mt-4">{{ nameVerified[0].username }}</v-list-item-title>
+                                                            <v-list-item-title class="mt-4 red--text" ><i>* oleh {{ selectedItemIndex.verified }} </i></v-list-item-title>
                                                         </v-list-item-content>
                                                         </v-list-item>
                                                         <v-list-item>
@@ -371,6 +371,7 @@ export default {
                 catatans: [{
                     "notulen": "kjasfcjdvjds",
                     "meet_id": "2",
+                    "maker" : ""
                 }],
                 nameVerified : [{"username": ""}],
                 notulenRules : [
@@ -381,6 +382,7 @@ export default {
                 checkboxRules : [
                     $v => !!$v || 'You must agree to continue!'
                 ],
+                maker: [{}],
                 defaultItem : {
                     perihal: '',
                     tempat: '',
@@ -393,12 +395,16 @@ export default {
     },
     methods: {
         async countMeet() {
-                const getCount = await this.$axios("/meet/count-meet-finish");
-                this.totalMeet = getCount.data.total;
-                // console.log("data", getData);
-            },
+            const receiver = this.$store.state.authentication.user.position;
+            const maker = this.$store.state.authentication.user.position;
+            const getCount = await this.$axios(`/meet/count-meet-finish-by-receiver-by-maker/${receiver}/${maker}`);
+            this.totalMeet = getCount.data.total;
+            // console.log("data", getData);
+        },
         async getMeet() {
-            const getData = await this.$axios(`/meet/finish`);
+            const receiver = this.$store.state.authentication.user.position;
+            const maker = this.$store.state.authentication.user.position;
+            const getData = await this.$axios(`/meet/finish-by-receiver-by-maker/${receiver}/${maker}`);
             // // if(getData.data.id == userId) {
                 this.meet = getData.data;
             // }
@@ -409,7 +415,7 @@ export default {
             const getDataNotulen = await this.$axios(`/notulen/${meet_id}`)
             // method: 'put',
             this.catatans = getDataNotulen.data;
-            // console.log("data", getData)
+            console.log("data", getDataNotulen)
 
         },
         async getAuthNameVerified() {
@@ -443,6 +449,10 @@ export default {
                 })
             }
         },
+        makerMeet() {
+            const arr = this.selectedItemIndex.maker[0];
+            this.maker = arr
+        },
         getItemTanggal() {
             return "item.tanggal";
         },
@@ -454,6 +464,7 @@ export default {
             this.selectedItemIndex = Object.assign({}, item);
             this.getNotulen(this.editedIndex);
             this.getAuthNameVerified(this.editedIndex);
+            this.makerMeet(this.editedIndex);
             this.dialog = true;
         },
         close () {

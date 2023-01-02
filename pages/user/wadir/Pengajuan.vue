@@ -203,8 +203,8 @@
             item-value="position"
             outlined
             required
-            @change="except"
-          >
+            >
+            <!-- @change="except" -->
             <template v-slot:selection="data">
               {{ data.item.position }}
             </template>
@@ -374,7 +374,7 @@ export default {
     participants: [],
     deskripsi: "",
     headers: [
-        // { text: "ID", value: "id" },
+        { text: "Kepeda", value: "receiver" },
         { text: "Perihal", value: "perihal" },
         { text: "Tempat", value: "tempat" },
         { text: "Tanggal", value: "tanggal" },
@@ -533,6 +533,10 @@ export default {
             console.log('betul')
         }
         this.fixDateCheck = triplying;
+        this.fixUnvalaibleParticipantsCheck = []
+        this.fixUnvalaibleParticipantsCheck = this.fixDateCheck.map(item => item.participants).flat(1)
+        const res = this.people2.filter(item => !this.fixUnvalaibleParticipantsCheck.includes(item.username))
+        this.people = res
     },
     timedi() {
         const timede = this.dateCheck.filter((item) => {

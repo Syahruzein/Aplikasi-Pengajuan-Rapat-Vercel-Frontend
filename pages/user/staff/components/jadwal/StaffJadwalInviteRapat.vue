@@ -56,7 +56,7 @@
                                         >
                                             <v-subheader class="pt-4 mb-2">
                                                 <p>
-                                                    Dari : <b class="subheader">{{ selectedItemIndex.maker }} </b> 
+                                                    Dari : <b class="subheader">{{ maker }} </b> 
                                                     <br> 
                                                     Kepada : Saya
                                                 </p>
@@ -90,9 +90,8 @@
                                             </v-list-item>       
                                             <v-list-item>
                                             <v-list-item-content>
-                                                <v-list-item-title class="mt-4">{{ selectedItemIndex.receiver }}</v-list-item-title>
                                                 <v-list-item-title class="mt-4"><b><i class="green--text">Terverifikasi</i></b></v-list-item-title>
-                                                <v-list-item-title class="mt-4">{{ nameVerified[0].username }}</v-list-item-title>
+                                                <v-list-item-title class="mt-4 red--text" ><i>* oleh {{ selectedItemIndex.verified }} </i></v-list-item-title>
                                             </v-list-item-content>
                                             </v-list-item>
                                         </v-list>
@@ -252,6 +251,7 @@
                     }
                 ],
                 nameVerified : [{"username": ""}],
+                maker: [{}],
                 defaultItem : {
                     perihal: '',
                     tempat: '',
@@ -286,6 +286,10 @@
                 const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
                 this.nameVerified = getData.data;
             },
+            makerMeet() {
+                const arr = this.selectedItemIndex.maker[0];
+                this.maker = arr
+            },
             getItemStatus() {
                 return "item.status";
             },
@@ -302,6 +306,7 @@
                 this.editedIndex = this.meet.indexOf(item);
                 this.selectedItemIndex = Object.assign({}, item);
                 this.getAuthNameVerified(this.editedIndex);
+                this.makerMeet(this.editedIndex);
                 this.dialog = true;
             },
             close () {
@@ -316,11 +321,16 @@
             },
             save () {
                 const meet_id = this.selectedItemIndex.id;
+                const maker =  this.$store.state.authentication.user.username + ' ' + 'Selaku' + ' ' + 'Staff' + ' ' + this.$store.state.authentication.user.position; 
+                let finalParticipants = this.selectedItemIndex.participants;
+                if(this.isSelectAll){
+                    finalParticipants = finalParticipants.filter(item=> item != undefined).map((item) => item.username)
+                }
                 if (this.editedIndex > -1) {
                         this.$axios({
                         method: 'put',
                         url: '/meet/update-finished' ,
-                        data: Object.assign(this.meet[this.editedIndex], this.selectedItemIndex, this.selectedItemIndex.status = '3', {meet_id})
+                        data: Object.assign(this.meet[this.editedIndex], this.selectedItemIndex, this.selectedItemIndex.status = '3', this.selectedItemIndex.participants = finalParticipants, {meet_id, maker})
                         })
                         .then(response => {
                             this.isOperationsSuccess = true

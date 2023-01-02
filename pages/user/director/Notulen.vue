@@ -61,7 +61,8 @@
                                         <p class="text-h4 text--primary">
                                             Ringkasan
                                         </p>
-                                        <p>dari Sekretaris</p>
+                                        <p v-if="catatans[0].notulen === null">dari staff</p>
+                                        <p v-else>dari {{ catatans[0].maker }}</p>
                                         <div v-if="(catatans[0].notulen === null)" class="text--primary " >
                                             <i class="red--text">Mohon ma'af notulen belum dibuat</i>
                                         </div>
@@ -85,7 +86,7 @@
                                                 >
                                                     <v-subheader class="pt-4 mb-2">
                                                         <p>
-                                                            <b class="subheader">{{ selectedItemIndex.maker }} </b> 
+                                                            <b class="subheader">{{ maker }} </b> 
                                                             <br> 
                                                             kepada {{ selectedItemIndex.receiver }}
                                                         </p>
@@ -119,9 +120,8 @@
                                                     </v-list-item>       
                                                     <v-list-item>
                                                     <v-list-item-content>
-                                                        <v-list-item-title class="mt-4">{{ selectedItemIndex.receiver }}</v-list-item-title>
                                                         <v-list-item-title class="mt-4"><b><i class="green--text">Terverifikasi</i></b></v-list-item-title>
-                                                        <v-list-item-title class="mt-4">{{ nameVerified[0].username }}</v-list-item-title>
+                                                        <v-list-item-title class="mt-4 red--text" ><i>* oleh {{ selectedItemIndex.verified }} </i></v-list-item-title>
                                                     </v-list-item-content>
                                                     </v-list-item>
                                                     <v-list-item>
@@ -256,7 +256,8 @@ export default {
                     "notulen": "kjasfcjdvjds",
                     "meet_id": "2",
                 }],
-                nameVerified : [{"username": ""}],                
+                nameVerified : [{"username": ""}],      
+                maker: [{}],          
                 defaultItem : {
                     perihal: '',
                     tempat: '',
@@ -269,16 +270,16 @@ export default {
     },
     methods: {
         async countMeet() {
-            const receiver = this.$store.state.authentication.user.position;
+            const user_id = this.$store.state.authentication.user.id;
             const participants = this.$store.state.authentication.user.username;
-            const getCount = await this.$axios(`/meet/count-meet-finish-receiver/${receiver}/${participants}`);
+            const getCount = await this.$axios(`/meet/count-meet-finish-uid/${user_id}/${participants}`);
             this.totalMeet = getCount.data.total;
             // console.log("data", getData);
         },
         async getMeet() {
-            const receiver = this.$store.state.authentication.user.position;
+            const user_id = this.$store.state.authentication.user.id;
             const participants = this.$store.state.authentication.user.username;
-            const getData = await this.$axios(`/meet/finish-receiver-invite/${receiver}/${participants}`);
+            const getData = await this.$axios(`/meet/finish-uid-invite/${user_id}/${participants}`);
             // // if(getData.data.id == userId) {
                 this.meet = getData.data;
             // }
@@ -296,6 +297,10 @@ export default {
             const getData = await this.$axios(`/api/auth/user-by-position/${position}`)
             this.nameVerified = getData.data;
         },
+        makerMeet() {
+            const arr = this.selectedItemIndex.maker[0];
+            this.maker = arr
+        },
         getItemTanggal() {
             return "item.tanggal";
         },
@@ -307,6 +312,7 @@ export default {
             this.selectedItemIndex = Object.assign({}, item);
             this.getNotulen(this.editedIndex);
             this.getAuthNameVerified(this.editedIndex);
+            this.makerMeet(this.editedIndex);
             this.dialog = true;
         },
         close () {

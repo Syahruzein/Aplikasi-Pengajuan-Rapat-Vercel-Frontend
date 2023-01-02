@@ -67,7 +67,7 @@
                                         >
                                         <v-subheader class="pt-4 mb-2">
                                                 <p>
-                                                    Dari : <b class="subheader">  {{ selectedItemIndex.maker }} </b> 
+                                                    Dari : <b class="subheader">  {{ maker }} </b> 
                                                     <br> 
                                                     Kepada : {{ selectedItemIndex.receiver }}
                                                 </p>
@@ -349,7 +349,7 @@
     
                                 <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn
+                                <!-- <v-btn
                                     class="white--text"
                                     color="bg-gradient-warning"
                                     @click="isEditing = !isEditing"
@@ -360,7 +360,7 @@
                                     <div v-else>
                                         change
                                     </div>               
-                                </v-btn>
+                                </v-btn> -->
                                 <v-btn
                                     class="white--text"
                                     color="bg-gradient-danger"
@@ -626,7 +626,7 @@
                     },
                 ],
                 headers2: [
-                    // { text: "ID", value: "id" },
+                    { text: "Kepeda", value: "receiver" },
                     { text: "Perihal", value: "perihal" },
                     { text: "Tempat", value: "tempat" },
                     { text: "Tanggal", value: "tanggal" },
@@ -645,6 +645,8 @@
                 fixDateCheck: [{}],
 
                 fixTimeCheck: [{}],
+
+                maker: [{}],
                 valid: false,
 
                 perihalRules: [
@@ -695,7 +697,9 @@
             else return 'red'
             },
             async countPengajuan() {
-                const getCount = await this.$axios("/meet/count-meet-process-all");
+                const receiver = this.$store.state.authentication.user.position;
+                const maker = this.$store.state.authentication.user.position;
+                const getCount = await this.$axios(`/meet/count-meet-process-by-receiver-by-maker/${receiver}/${maker}`);
                 this.totalMeet = getCount.data.total;
                 // console.log("data", getData);
             },
@@ -706,8 +710,9 @@
                 this.dateCheck = getData.data;
             },
             async getPengajuan() {
-                // const userId = this.$store.state.authentication.user.id;
-                const getData = await this.$axios(`/meet/process-all`);
+                const receiver = this.$store.state.authentication.user.position;
+                const maker = this.$store.state.authentication.user.position;
+                const getData = await this.$axios(`/meet/process-by-staff/${receiver}/${maker}`);
                 // if(getData.data.id == userId) {
                     this.meet = getData.data;
                 // }
@@ -729,7 +734,10 @@
                     console.log('betul')
                 }
                 this.fixDateCheck = triplying;
-                console.log(this.fixDateCheck);
+                this.fixUnvalaibleParticipantsCheck = []
+                this.fixUnvalaibleParticipantsCheck = this.fixDateCheck.map(item => item.participants).flat(1)
+                const res = this.people2.filter(item => !this.fixUnvalaibleParticipantsCheck.includes(item.username))
+                this.people = res
             },
             timedi() {
                 const timede = this.dateCheck.filter((item) => {
@@ -752,6 +760,10 @@
                     this.isSelectAll = true;
                 });
             },
+            makerMeet() {
+                const arr = this.selectedItemIndex.maker[0];
+                this.maker = arr
+            },
             getItemStatus() {
                 return "item.status";
             },
@@ -767,6 +779,8 @@
             editItem(item) {
                 this.editedIndex = this.meet.indexOf(item);
                 this.selectedItemIndex = Object.assign({}, item);
+                this.makerMeet(this.editedIndex);
+                this.triple(this.editedIndex);
                 this.dialog = true;
             },
             deleteItem(item) {
@@ -820,7 +834,12 @@
                         this.$axios({
                         method: 'put',
                         url: '/meet/update-success' ,
-                        data: Object.assign(this.meet[this.editedIndex], this.selectedItemIndex, this.selectedItemIndex.status = '2', this.selectedItemIndex.participants = finalParticipants)
+                        data: Object.assign(
+                            this.meet[this.editedIndex], 
+                            this.selectedItemIndex, this.selectedItemIndex.status = '2', 
+                            this.selectedItemIndex.participants = finalParticipants,
+                            this.selectedItemIndex.verified = this.$store.state.authentication.user.username + ' ' + 'Selaku' + ' ' +  'Staff' + ' ' + this.$store.state.authentication.user.position
+                            )
                         })
                         .then(response => {
                             this.isOperationsSuccess = true

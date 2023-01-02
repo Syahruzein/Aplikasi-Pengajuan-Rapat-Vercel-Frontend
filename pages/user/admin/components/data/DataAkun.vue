@@ -49,6 +49,7 @@ export default {
                 // { text: "ID", value: "id" },
                 { text: "Username", value: "username" },
                 { text: "Email", value: "email" },
+                { text: "Role", value: "name" },
                 { text: "Position", value: "position" },
             ],
             akun: [
@@ -56,6 +57,7 @@ export default {
                     // "id": 1,
                     "username": "",
                     "email": "",
+                    "name": "",
                     "position": "",
                 },
             ],
@@ -65,6 +67,7 @@ export default {
         async getAuthAll() {
             const getData = await this.$axios(`/api/auth/user`);
             this.akun = getData.data;
+            console.log(getData)
         },
     },
     computed: {

@@ -153,7 +153,7 @@
                             </v-data-table>
                             <p class="red--text pt-6">
                             <i>
-                                Catatans : Rapat maksimal dalam 1 hari adalah 3 kali dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Terima kasih.
+                                Catatans : Rapat maksimal dalam 1 hari adalah 5 kali sesuai dengan direksi yang ditujuh (ada pada kolom Kepada) dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Anda bisa mengajukan rapat dengan jam yang sama dengan catatan direksi (kolom Kepada) yang berbeda. Terima kasih.
                             </i>
                             </p>
                         </v-col>
@@ -178,7 +178,7 @@
                             </v-data-table>
                             <p class="red--text pt-6">
                             <i>
-                                Catatans : Rapat maksimal dalam 1 hari adalah 3 kali dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Terima kasih.
+                                Catatans : Rapat maksimal dalam 1 hari adalah 5 kali sesuai dengan direksi yang ditujuh (ada pada kolom Kepada) dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Anda bisa mengajukan rapat dengan jam yang sama dengan catatan direksi (kolom Kepada) yang berbeda. Terima kasih.
                             </i>
                             </p>
                         </v-col>
@@ -204,7 +204,7 @@
                             
                             <p class="red--text pt-6">
                             <i>
-                                Catatans : Rapat maksimal dalam 1 hari adalah 3 kali dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Terima kasih.
+                                Catatans : Rapat maksimal dalam 1 hari adalah 5 kali sesuai dengan direksi yang ditujuh (ada pada kolom Kepada) dan Jika ada waktu yang sudah dipesan. Anda tidak akan bisa memilih waktu dengan jangkauan 2 jam sebelumnya dan 2 jam setelahnya !!!. Anda bisa mengajukan rapat dengan jam yang sama dengan catatan direksi (kolom Kepada) yang berbeda. Terima kasih.
                             </i>
                             </p>
                         </v-col>
@@ -230,8 +230,8 @@
                     item-value="position"
                     outlined
                     required
-                    @change="except"
                     >
+                    <!-- @change="except" -->
                         <template v-slot:selection="data">
                             {{ data.item.position }}
                         </template>
@@ -401,10 +401,11 @@ import moment from 'moment';
                 waktu: '',
                 status: '1',
                 receiver: '',
+                receiver2: '', 
                 participants: [],
                 deskripsi: '',
                 headers: [
-                    // { text: "ID", value: "id" },
+                    { text: "Kepada", value: "receiver" },
                     { text: "Perihal", value: "perihal" },
                     { text: "Tempat", value: "tempat" },
                     { text: "Tanggal", value: "tanggal" },
@@ -435,6 +436,7 @@ import moment from 'moment';
                 fixDateCheck: [{}],
 
                 fixTimeCheck: [{}],
+                fixUnvalaibleParticipantsCheck: [],
             
             isOperationsSuccess: false,
             valid: false,
@@ -497,7 +499,7 @@ import moment from 'moment';
                 this.$refs.form.validate()
                 if(this.$refs.form.validate()){
                     // const data = this.editItem;
-                    const nameUser = this.$store.state.authentication.user.username;
+                    const nameUser =[this.$store.state.authentication.user.username, this.$store.state.authentication.user.position];
                     let finalParticipants = this.participants;
                     if(this.isSelectAll){
 
@@ -537,7 +539,7 @@ import moment from 'moment';
                     `/meet/process-and-success`
                 );
                 this.dateCheck = getData.data;
-            
+                // console.log(this.dateCheck);
             },
             async getParticipants (){
                 const username  = this.$store.state.authentication.user.username;
@@ -553,13 +555,37 @@ import moment from 'moment';
                 return "item.tanggal";
             },
             except(){
-                console.log(this.receiver)
-                const exception = this.people2.map(item => {
-                    if(item.position != this.receiver) {
-                        return item;
-                    }
+                const so = []
+                const rrr = this.people2.find(item => {
+                    item.position == this.receiver
+                    return item.username
                 })
-                this.people = exception
+                this.receiver2 = rrr.username
+                console.log(rrr.username)
+                console.log(this.receiver2);
+                Array.prototype.unique = function() {
+                    var a = this.concat();
+                    for(var i=0; i<a.length; ++i) {
+                        for(var j=i+1; j<a.length; ++j) {
+                            if(a[i] === a[j])
+                                a.splice(j--, 1);
+                        }
+                    }
+
+                    return a;
+                };
+                let sos = [this.receiver2]
+                sos = so.concat(this.fixUnvalaibleParticipantsCheck).unique()
+                console.log(sos)
+                const res = this.people2.filter(item => !sos.includes(item.username))
+                this.people = res
+                console.log(this.receiver)
+                // const exception = this.people2.map(item => {
+                //     if(item.position != this.receiver) {
+                //         return item;
+                //     }
+                // })
+                // this.people = exception
             },
             triple() {
                 const triplying = this.dateCheck.filter((item) => {
@@ -571,21 +597,60 @@ import moment from 'moment';
                     console.log('betul')
                 }
                 this.fixDateCheck = triplying;
+                console.log(this.fixDateCheck);
+                let os = []
+                this.fixUnvalaibleParticipantsCheck = []
+                Array.prototype.unique = function() {
+                    var a = this.concat();
+                    for(var i=0; i<a.length; ++i) {
+                        for(var j=i+1; j<a.length; ++j) {
+                            if(a[i] === a[j])
+                                a.splice(j--, 1);
+                        }
+                    }
+
+                    return a;
+                };
+                // for (let index = 0; index < this.fixDateCheck.length; index++) {
+                //     this.fixUnvalaibleParticipantsCheck = os.concat(this.fixDateCheck[index].participants)  
+                // }
+
+                this.fixUnvalaibleParticipantsCheck = this.fixDateCheck.map(item => item.participants).flat(1)
+
+                console.log(this.fixUnvalaibleParticipantsCheck)
+                const res = this.people2.filter(item => !this.fixUnvalaibleParticipantsCheck.includes(item.username))
+                this.people = res
+                console.log("res", res)
+                console.log("people", this.people)
             },
+            // excepted () {
+            //     const exceptions = this.dateCheck.filter((item) => {
+            //         moment(item.tanggal).isSame(new Date(this.tanggal), "day")
+            //     }).filter((item) => {
+                    
+            //     })
+            //     this.people = exceptions
+            // },
             timedi() {
-                const timede = this.dateCheck.filter((item) => {
-                    return moment(item.tanggal).isSame(new Date(this.tanggal), "day")
-                }).filter((item)=> {
-                    var format = 'HH:mm'
-                    const time = moment(this.waktu, format);
-                    const beforeTime = moment(item.waktu, format).add(-2, 'hours');
-                    const afterTime = moment(item.waktu, format).add(2, 'hours');
-                    // console.log(time, beforeTime, afterTime)
-                    if(time.isBetween(beforeTime, afterTime)) {
-                        console.log('tidak boleh')
+                // const timede = this.dateCheck.filter((item) => {
+                //     return moment(item.tanggal).isSame(new Date(this.tanggal), "day")
+                // }).filter((item)=> {
+                //     var format = 'HH:mm'
+                //     const time = moment(this.waktu, format);
+                //     const beforeTime = moment(item.waktu, format).add(-2, 'hours');
+                //     const afterTime = moment(item.waktu, format).add(2, 'hours');
+                //     // console.log(time, beforeTime, afterTime)
+                //     if(time.isBetween(beforeTime, afterTime)) {
+                //         console.log('tidak boleh')
+                //     }
+                // })
+                const timeded = this.dateCheck.filter( item => {
+                    if(item.tanggal == this.tanggal && item.waktu == this.waktu) {
+                        return item;
                     }
                 })
-                this.fixTimeCheck = timede;
+                this.fixTimeCheck = timeded;
+                console.log(this.fixTimeCheck);
             }, 
             clear () {
                 this.$refs.form.reset()

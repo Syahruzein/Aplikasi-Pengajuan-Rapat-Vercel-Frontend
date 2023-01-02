@@ -185,7 +185,6 @@
                         `Ketua Program Studi D3 Multimedia Broadcasting PSDKU Lamongan`,
                         `Ketua Ketua Program Studi D3 Teknik Informatika PSDKU Sumenep`,
                         `Ketua Program Studi D3 Multimedia Broadcasting PSDKU Sumenep`,
-                        `Sekretaris`
                       ],
             checkbox: false,
             dialog: false,
