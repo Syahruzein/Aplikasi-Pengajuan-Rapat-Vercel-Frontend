@@ -140,6 +140,7 @@ export default {
                         `Kepala Departemen Teknik Informatika dan Komputer`,
                         `Kepala Departemen Teknik Mekanika dan Energi`,
                         `Kepala Departemen Teknologi Multimedia Kreatif`,
+                        `Kepala Pendidikan Jarak Jauh`,
                         `Ketua Program Studi S2 Teknik Elektro`,
                         `Ketua Program Studi S2 Teknik Informatika dan Komputer`,
                         `Ketua Program Studi Sarjana Terapan Teknik Elektronika`,
